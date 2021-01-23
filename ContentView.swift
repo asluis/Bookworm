@@ -20,7 +20,6 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView{
-            
             List{
                 ForEach(books, id: \.self){ book in
                     NavigationLink(destination: Text(book.title ?? "Unknown")){
@@ -36,10 +35,7 @@ struct ContentView: View {
                     }
                 }
             }
-            
-            
-            
-                .navigationBarTitle("test")
+                .navigationBarTitle("Bookworm")
                 .sheet(isPresented: $showAddScreen){
                     AddBookView().environment(\.managedObjectContext, self.moc)
                 }
