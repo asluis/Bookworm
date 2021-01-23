@@ -13,34 +13,32 @@ struct RatingView: View {
     
     var label = ""
     var maximumRating = 5
-    
-    var offImage: Image?
+
     var onImage = Image(systemName: "star.fill")
-
-    var offColor = Color.gray
+    var offImage:Image?
+    
     var onColor = Color.yellow
+    var offColor = Color.gray
     
-    
-    var body: some View {
-        HStack {
-            if label.isEmpty == false {
-                Text(label)
-            }
-
-            ForEach(1..<maximumRating + 1) { number in
-                self.image(for: number)
-                    .foregroundColor(number > self.rating ? self.offColor : self.onColor)
+    var body: some View{
+        HStack{
+            Text("\(label)")
+            
+            ForEach(1..<maximumRating + 1){ num in
+                imageType(for: num)
+                    .foregroundColor(num <= rating ? onColor : offColor)
                     .onTapGesture {
-                        self.rating = number
+                        self.rating = num
                     }
             }
         }
     }
     
-    func image(for number: Int) -> Image {
-        if number > rating {
+    // Returns the custom offImage if it exists or the default star.
+    func imageType(for num:Int) -> Image{
+        if num > rating {
             return offImage ?? onImage
-        } else {
+        } else{
             return onImage
         }
     }
