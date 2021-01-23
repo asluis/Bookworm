@@ -10,8 +10,34 @@ import CoreData
 
 struct ContentView: View {
     
+    @Environment(\.managedObjectContext) var moc
+    @FetchRequest(entity: Book.entity(), sortDescriptors: []) var books:FetchedResults<Book>
+    
+    @State private var showAddScreen = false
+    
+        
+    
+    
     var body: some View {
-        Text("Sample text")
+        NavigationView{
+            
+            Text("Count: \(books.count)")
+            
+            
+            
+                .navigationBarTitle("test")
+                .sheet(isPresented: $showAddScreen){
+                    AddBookView().environment(\.managedObjectContext, self.moc)
+                }
+                .navigationBarItems(trailing:
+                    Button(action: {
+                        showAddScreen.toggle()
+                    }){
+                        Image(systemName: "plus")
+                    }
+                )
+        }
+        
     }
 }
 
