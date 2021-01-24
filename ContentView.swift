@@ -22,7 +22,7 @@ struct ContentView: View {
         NavigationView{
             List{
                 ForEach(books, id: \.self){ book in
-                    NavigationLink(destination: Text(book.title ?? "Unknown")){
+                    NavigationLink(destination: DetailView(book: book)){
                         EmojiRatingView(rating: book.rating)
                             .font(.largeTitle)
                         
@@ -33,13 +33,13 @@ struct ContentView: View {
                                 .foregroundColor(.secondary)
                         }
                     }
-                }
+                }.onDelete(perform: deleteBooks)
             }
                 .navigationBarTitle("Bookworm")
                 .sheet(isPresented: $showAddScreen){
                     AddBookView().environment(\.managedObjectContext, self.moc)
                 }
-                .navigationBarItems(trailing:
+            .navigationBarItems(leading: EditButton(), trailing:
                     Button(action: {
                         showAddScreen.toggle()
                     }){
@@ -48,6 +48,15 @@ struct ContentView: View {
                 )
         }
         
+    }
+    
+    func deleteBooks(offsets: IndexSet){
+        for num in offsets {
+            let book = books[num]
+            
+            moc.delete(book)
+        }
+        try? moc.save()
     }
 }
 
