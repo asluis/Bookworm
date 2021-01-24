@@ -56,6 +56,13 @@ struct DetailView: View {
                     self.deleteBook()
             }, secondaryButton: .cancel())
         }
+        .navigationBarItems(trailing:
+            Button(action: { // Gets rid of current book in detail view
+                self.showingDeleteAlert.toggle()
+            }){
+                Image(systemName: "trash")
+            }
+        )
     }
     
     
@@ -64,7 +71,7 @@ struct DetailView: View {
         
         try? moc.save() // Makes it permanent
         
-        presentationMode.wrappedValue.dismiss()
+        presentationMode.wrappedValue.dismiss()// Pops current view
     }
 }
 
