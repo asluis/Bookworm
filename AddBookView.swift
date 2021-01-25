@@ -44,16 +44,27 @@ struct AddBookView: View {
                         book.rating = Int16(self.rating)
                         book.genre = self.genre
                         book.review = self.review
+                        book.date = Date()
+                        
                         
                         try? self.moc.save();
                         
                         self.presentationMode.wrappedValue.dismiss()
-                    }
+                    }.disabled(!self.isValidBook())
+                    // We can only save a valid book w/ genre,title, and author
                 }
             }
             .navigationBarTitle("Add Book")
         }
     }
+    
+    func isValidBook() -> Bool{
+        if genre.isEmpty || title.isEmpty || author.isEmpty {
+            return false
+        }
+        return true
+    }
+    
 }
 
 struct AddBookView_Previews: PreviewProvider {

@@ -48,6 +48,10 @@ struct DetailView: View {
                     .font(.largeTitle)
 
                 Spacer()
+                
+                
+                
+                Text("Date added: \(prepareDate())")
             }
         }
         .navigationBarTitle("\(book.title ?? "Unknown Book")", displayMode: .inline)
@@ -65,6 +69,13 @@ struct DetailView: View {
         )
     }
     
+    func prepareDate() -> String{
+        let formatter = DateFormatter()
+        
+        formatter.dateFormat = "MM/dd/yyyy"
+        
+        return formatter.string(from: book.date ?? Date())
+    }
     
     func deleteBook(){
         moc.delete(book)
@@ -86,6 +97,7 @@ struct DetailView_Previews: PreviewProvider {
         book.genre = "Fantasy"
         book.rating = 4
         book.review = "This was a great book; I really enjoyed it."
+        book.date = Date()
         return NavigationView {
             DetailView(book: book)
         }
